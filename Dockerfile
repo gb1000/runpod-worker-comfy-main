@@ -28,8 +28,8 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 # Set the working directory
 WORKDIR /comfyui
 
-RUN python3 -m venv venv
-RUN /bin/bash -c "source venv/bin/activate"
+# RUN python3 -m venv venv
+# RUN /bin/bash -c "source venv/bin/activate"
 
 RUN pip install --no-cache-dir -r requirements.txt
 
