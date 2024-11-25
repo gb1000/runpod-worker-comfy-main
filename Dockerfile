@@ -1,5 +1,7 @@
 # Use Nvidia CUDA base image
-FROM nvidia/cuda:12.6.2-cudnn-runtime-ubuntu22.04 as base
+# FROM nvidia/cuda:12.6.2-cudnn-runtime-ubuntu22.04 as base
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04 as base
+
 
 # Prevent prompts from blocking installations
 ENV DEBIAN_FRONTEND=noninteractive \
