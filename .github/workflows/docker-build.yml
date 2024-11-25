@@ -1,5 +1,5 @@
-name: Build and Push Docker Image 3
- 
+name: Build and Push Docker Image
+
 on:
   push:
     branches:
@@ -30,11 +30,14 @@ jobs:
 
       # Step 4: Build and push Docker image
       - name: Build and Push Docker Image
+        env:
+          DOCKERHUB_REPO: ${{ vars.DOCKERHUB_REPO }}
+          DOCKERHUB_IMG: ${{ vars.DOCKERHUB_IMG }}
         run: |
           docker buildx create --use
           docker buildx build \
             --file Dockerfile \
-            --tag ${{ vars.DOCKERHUB_REPO }}:${{ vars.DOCKERHUB_IMG }} \
+            --tag $DOCKERHUB_REPO:$DOCKERHUB_IMG \
             --build-arg HUGGINGFACE_ACCESS_TOKEN=${{ secrets.HUGGINGFACE_ACCESS_TOKEN }} \
             --push \
             .
