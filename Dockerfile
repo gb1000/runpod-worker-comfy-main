@@ -29,11 +29,19 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 WORKDIR /comfyui
 
 # Install PyTorch with CUDA
-RUN pip install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+# RUN pip install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+RUN pip install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
+
+
 
 # Install xformers and other dependencies
-RUN pip install --no-cache-dir xformers==0.0.23 --index-url https://download.pytorch.org/whl/cu121
+# RUN pip install --no-cache-dir xformers --extra-index-url https://download.pytorch.org/whl/cu124
 RUN pip install --no-cache-dir -r requirements.txt
+
+
+
+
+
 
 # Install custom nodes (e.g., ComfyUI-Manager)
 WORKDIR /comfyui/custom_nodes
