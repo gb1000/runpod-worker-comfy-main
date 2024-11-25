@@ -30,18 +30,16 @@ jobs:
 
       # Step 4: Build and push Docker image
       - name: Build and Push Docker Image
-        uses: docker/bake-action@v2
-        with:
-          push: true
-          files: |
-            docker-compose.yml
-          set: |
-            target.dockerfile=Dockerfile
-            target.context=.
-            target.tags=${{ vars.DOCKERHUB_REPO }}:${{ vars.DOCKERHUB_IMG }}
-            target.build-arg.HUGGINGFACE_ACCESS_TOKEN=${{ secrets.HUGGINGFACE_ACCESS_TOKEN }}
+        run: |
+          docker buildx create --use
+          docker buildx build \
+            --file Dockerfile \
+            --tag ${{ vars.DOCKERHUB_REPO }}:${{ vars.DOCKERHUB_IMG }} \
+            --build-arg HUGGINGFACE_ACCESS_TOKEN=${{ secrets.HUGGINGFACE_ACCESS_TOKEN }} \
+            --push \
+            .
 
-      # Optional Step: Update Docker Hub description (if applicable)
+      # Optional Step: Update Docker Hub description
       - name: Update Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
         with:
