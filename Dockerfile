@@ -50,9 +50,9 @@ RUN cd ComfyUI-Manager && pip3 install -r requirements.txt
 # RUN mkdir ComfyUI-Manager/startup-scripts
 # COPY /data/snapshot.json ComfyUI-Manager/startup-scripts/restore-snapshot.json
 
-WORKDIR /comfyui
-COPY /data/extra_model_paths.yaml .
-ADD src/extra_model_paths.yaml ./
+# WORKDIR /comfyui
+# COPY /data/extra_model_paths.yaml .
+# ADD src/extra_model_paths.yaml ./
 
 # # Go back to the root
 # WORKDIR /
