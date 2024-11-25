@@ -55,8 +55,8 @@ EXPOSE 8188
 
 WORKDIR /comfyui
 
-COPY /data/extra_model_paths.yaml .
-# ADD src/extra_model_paths.yaml ./
+# COPY data/extra_model_paths.yaml .
+ADD src/extra_model_paths.yaml ./
 
 
 # Set working directory back to root
