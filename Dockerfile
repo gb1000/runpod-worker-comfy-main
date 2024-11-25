@@ -1,5 +1,5 @@
 # Use Nvidia CUDA base image
-FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04 as base
+FROM nvidia/cuda:12.6.2-cudnn-runtime-ubuntu22.04 as base
 
 # Prevent prompts from blocking installations
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -28,6 +28,13 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
 # Set the working directory
 WORKDIR /comfyui
 
+RUN python3 -m venv venv
+RUN /bin/bash -c "source venv/bin/activate"
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+
 # Install PyTorch with CUDA
 # RUN pip install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
 RUN pip install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
@@ -35,12 +42,7 @@ RUN pip install --no-cache-dir torch torchvision torchaudio --extra-index-url ht
 
 
 # Install xformers and other dependencies
-# RUN pip install --no-cache-dir xformers --extra-index-url https://download.pytorch.org/whl/cu124
-RUN pip install --no-cache-dir -r requirements.txt
-
-
-
-
+RUN pip install --no-cache-dir xformers --extra-index-url https://download.pytorch.org/whl/cu124
 
 
 # Install custom nodes (e.g., ComfyUI-Manager)
@@ -50,6 +52,12 @@ RUN git clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git && \
 
 # Expose the application's port
 EXPOSE 8188
+
+WORKDIR /comfyui
+
+COPY /data/extra_model_paths.yaml .
+# ADD src/extra_model_paths.yaml ./
+
 
 # Set working directory back to root
 WORKDIR /comfyui
