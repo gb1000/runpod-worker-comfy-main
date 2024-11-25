@@ -6,13 +6,21 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_PREFER_BINARY=1 \
     PYTHONUNBUFFERED=1 
 
-# Install Python, pip, git, and other tools
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.10 \
+# Install Python 3.12 and other dependencies
+RUN apt-get update && apt-get install -y \
+    software-properties-common && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt-get update && apt-get install -y \
+    python3.12 \
+    python3.12-distutils \
     python3-pip \
     git \
-    curl \
-    wget
+    wget \
+    libgl1 && \
+    ln -sf /usr/bin/python3.12 /usr/bin/python && \
+    ln -sf /usr/bin/pip3 /usr/bin/pip && \
+    apt-get autoremove -y && apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
 # Clone the ComfyUI repository
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /comfyui
